@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">JetpackCompose</string>
+    <string name="shareUser">分享人：</string>
+    <string name="author">作者：</string>
 </resources>

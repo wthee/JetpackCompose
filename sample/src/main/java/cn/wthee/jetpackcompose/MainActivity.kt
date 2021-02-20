@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val viewModel: ArticleViewModel by viewModels()
-        viewModel.loadArticle()
+        viewModel.loadArticle(0)
     }
 }
 
