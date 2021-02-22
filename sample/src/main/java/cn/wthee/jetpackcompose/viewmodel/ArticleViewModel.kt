@@ -8,6 +8,9 @@ import cn.wthee.jetpackcompose.data.ArticleData
 import cn.wthee.jetpackcompose.data.ArticleInfo
 import kotlinx.coroutines.launch
 
+/**
+ * 文章 ViewModel
+ */
 class ArticleViewModel: ViewModel() {
 
     val articles = MutableLiveData<List<ArticleInfo>>()
