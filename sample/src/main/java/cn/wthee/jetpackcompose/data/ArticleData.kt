@@ -44,19 +44,7 @@ data class ArticleInfo(
     val userId: Int,
     val visible: Int,
     val zan: Int
-) {
-    companion object {
-        fun getDefault(): ArticleInfo {
-            return ArticleInfo(
-                "", 0, "", false, 0, "", true, 0, "", "", "",
-                true, "", 0, "", "", "2020-12-21 11:11:11", "", "", "", 0, 0,
-                0, 1L, "admin", 0, "", listOf(), "预览", 0, 0, 0, 0
-            )
-
-        }
-    }
-
-}
+)
 
 data class Tag(
     val name: String,

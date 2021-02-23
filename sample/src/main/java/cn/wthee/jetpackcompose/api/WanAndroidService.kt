@@ -1,6 +1,7 @@
 package cn.wthee.jetpackcompose.api
 
 import cn.wthee.jetpackcompose.data.ArticleData
+import cn.wthee.jetpackcompose.data.BannerData
 import cn.wthee.jetpackcompose.data.ResponseData
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,4 +17,11 @@ interface WanAndroidService {
      */
     @GET("/article/list/{page}/json")
     suspend fun getHomeArticleList(@Path("page") page: Int): ResponseData<ArticleData>
+
+    /**
+     * 获取 banner
+     * https://www.wanandroid.com/banner/json
+     */
+    @GET("/banner/json")
+    suspend fun getBanner(): ResponseData<List<BannerData>>
 }

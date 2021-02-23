@@ -1,6 +1,8 @@
 package cn.wthee.jetpackcompose.ui
 
+import android.net.http.SslError
 import android.util.Log
+import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -30,6 +32,15 @@ fun ArticleDetail(commonViewModel: CommonViewModel, url: String) {
                     webViewClient = object : WebViewClient() {
                         override fun onPageFinished(view: WebView?, url: String?) {
                             commonViewModel.loading.value = false
+                        }
+
+                        override fun onReceivedSslError(
+                            view: WebView?,
+                            handler: SslErrorHandler?,
+                            error: SslError?
+                        ) {
+                            handler?.proceed()
+//                            super.onReceivedSslError(view, handler, error)
                         }
                     }
                     //设置

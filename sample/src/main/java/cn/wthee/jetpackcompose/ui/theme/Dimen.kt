@@ -22,4 +22,10 @@ object Dimen {
      * 卡片阴影：4dp
      */
     val cardShadow = 4.dp
+
+
+    /**
+     * 导航栏高度：42dp
+     */
+    val appBarHeight = 42.dp
 }

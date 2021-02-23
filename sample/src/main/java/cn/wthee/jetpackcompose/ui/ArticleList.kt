@@ -1,6 +1,5 @@
 package cn.wthee.jetpackcompose.ui
 
-import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,22 +20,52 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
 import cn.wthee.jetpackcompose.R
 import cn.wthee.jetpackcompose.data.ArticleInfo
-import cn.wthee.jetpackcompose.navigation.Route
+import cn.wthee.jetpackcompose.navigation.toArticleDetail
 import cn.wthee.jetpackcompose.ui.theme.Dimen
 import cn.wthee.jetpackcompose.ui.theme.shapes
 import cn.wthee.jetpackcompose.viewmodel.ArticleViewModel
 import cn.wthee.jetpackcompose.viewmodel.CommonViewModel
+
+
+private var articlePage = 0
+private var data = arrayListOf<ArticleInfo>()
+
+/**
+ * 文章列表
+ */
+@Composable
+fun ArticleList(commonViewModel: CommonViewModel, navController: NavController) {
+
+    val viewModel: ArticleViewModel = viewModel()
+    data.addAll(viewModel.articles.observeAsState(listOf()).value)
+    commonViewModel.loading.value = false
+    val state = rememberLazyListState()
+
+    LazyColumn(
+        Modifier.fillMaxWidth().fillMaxHeight(),
+        state = state
+    ) {
+        itemsIndexed(data) { _, chat ->
+            ArticleListItem(commonViewModel, navController, chat)
+        }
+        // 滑动加载更多
+        if (state.firstVisibleItemIndex == articlePage * 20) {
+            viewModel.loadArticle(++articlePage)
+        }
+
+    }
+}
 
 /**
  * 文章列表项
  */
 @Composable
 fun ArticleListItem(
-    article: ArticleInfo,
-    navController: NavController
+    commonViewModel: CommonViewModel,
+    navController: NavController,
+    article: ArticleInfo
 ) {
     val typography = MaterialTheme.typography
     Card(
@@ -44,8 +73,7 @@ fun ArticleListItem(
         modifier = Modifier.padding(Dimen.medium)
             .shadow(Dimen.cardShadow)
             .clickable {
-                //浏览文章
-                navController.navigate("${Route.ARTICLE}/${article.link}")
+                toArticleDetail(commonViewModel, navController, article.link)
             }
     ) {
         Column(
@@ -87,7 +115,9 @@ fun ArticleListItem(
                 )
 
                 IconButton(
-                    onClick = { /* doSomething() */ }
+                    onClick = {
+                        toArticleDetail(commonViewModel, navController, article.link)
+                    }
                 ) {
                     Icon(
                         Icons.Filled.KeyboardArrowRight,
@@ -97,36 +127,5 @@ fun ArticleListItem(
             }
 
         }
-    }
-}
-
-
-var articlePage = 0
-var data = arrayListOf<ArticleInfo>()
-
-/**
- * 文章列表
- */
-@Composable
-fun ArticleList(navController: NavController) {
-
-    val viewModel: ArticleViewModel = viewModel()
-    data.addAll(viewModel.articles.observeAsState(listOf()).value)
-    val commonViewModel: CommonViewModel = viewModel()
-    commonViewModel.loading.value = false
-    val state = rememberLazyListState()
-
-    LazyColumn(
-        Modifier.fillMaxWidth().fillMaxHeight(),
-        state = state
-    ) {
-        itemsIndexed(data) { _, chat ->
-            ArticleListItem(chat, navController)
-        }
-        // 滑动加载更多
-        if (state.firstVisibleItemIndex == articlePage * 20) {
-            viewModel.loadArticle(++articlePage)
-        }
-
     }
 }

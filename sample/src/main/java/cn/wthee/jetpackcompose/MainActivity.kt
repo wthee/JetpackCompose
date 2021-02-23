@@ -32,10 +32,12 @@ import cn.wthee.jetpackcompose.navigation.Route
 import cn.wthee.jetpackcompose.navigation.Route.ARTICLE_URL
 import cn.wthee.jetpackcompose.ui.ArticleDetail
 import cn.wthee.jetpackcompose.ui.ArticleList
-import cn.wthee.jetpackcompose.ui.BottomActionBar
+import cn.wthee.jetpackcompose.ui.AppBar
+import cn.wthee.jetpackcompose.ui.Banner
 import cn.wthee.jetpackcompose.ui.theme.Dimen
 import cn.wthee.jetpackcompose.ui.theme.JetpackComposeTheme
 import cn.wthee.jetpackcompose.ui.theme.shapes
+import cn.wthee.jetpackcompose.viewmodel.ArticleViewModel
 import cn.wthee.jetpackcompose.viewmodel.CommonViewModel
 
 private lateinit var commonViewModel: CommonViewModel
@@ -60,23 +62,15 @@ fun Home() {
     val navController = rememberNavController()
     commonViewModel = viewModel()
     JetpackComposeTheme() {
-        ConstraintLayout() {
-            val (host, actionBar) = createRefs()
-            Surface(modifier = Modifier.constrainAs(host) {
-                top.linkTo(parent.top)
-                bottom.linkTo(actionBar.top)
-            }) {
+        Column() {
+            Surface(modifier = Modifier.weight(1f, true)) {
                 MainNavHost(navController)
             }
-            Surface(modifier = Modifier.constrainAs(actionBar) {
-                bottom.linkTo(parent.bottom)
-            }) {
-                //bar
-                BottomActionBar(commonViewModel, navController)
+            Surface() {
+                //bottom app bar
+                AppBar(commonViewModel, navController)
             }
-
         }
-
     }
 }
 
@@ -86,9 +80,10 @@ fun MainNavHost(navController: NavHostController) {
     NavHost(navController, Route.Home) {
         //首页
         composable(Route.Home) {
+
             Column() {
-                BannerCard()
-                ArticleList(navController)
+                Banner(commonViewModel, navController)
+                ArticleList(commonViewModel, navController)
             }
         }
         //文章详情页
@@ -97,33 +92,6 @@ fun MainNavHost(navController: NavHostController) {
             arguments = listOf(navArgument(ARTICLE_URL) { type = NavType.StringType })
         ) {
             ArticleDetail(commonViewModel, it.arguments?.getString(ARTICLE_URL) ?: "")
-        }
-
-    }
-}
-
-@Composable
-fun BannerCard() {
-    val image = painterResource(R.drawable.jetpack)
-    MaterialTheme {
-        Card(
-            shape = shapes.large,
-            modifier = Modifier.padding(Dimen.medium)
-                .shadow(Dimen.cardShadow)
-                .clickable {
-
-                }
-        ) {
-            val imageModifier = Modifier
-                .preferredHeight(180.dp)
-                .fillMaxWidth()
-
-            Image(
-                painter = image,
-                contentDescription = "图片",
-                modifier = imageModifier,
-                contentScale = ContentScale.Crop
-            )
         }
 
     }
