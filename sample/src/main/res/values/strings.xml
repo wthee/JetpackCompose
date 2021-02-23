@@ -3,4 +3,7 @@
     <string name="shareUser">分享人：</string>
     <string name="author">作者：</string>
     <string name="article_detail">文章详情</string>
+
+    <!-- 功能-->
+    <string name="menu_login">登录</string>
 </resources>

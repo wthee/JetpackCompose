@@ -14,11 +14,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import cn.wthee.jetpackcompose.R
+import cn.wthee.jetpackcompose.nav.toHome
 import cn.wthee.jetpackcompose.ui.theme.Dimen
 import cn.wthee.jetpackcompose.viewmodel.CommonViewModel
 
+@ExperimentalMaterialApi
 @Composable
-fun AppBar(commonViewModel: CommonViewModel, navController: NavController, drawerState: BottomDrawerState) {
+fun AppBar(
+    commonViewModel: CommonViewModel,
+    navController: NavController,
+    state: ModalBottomSheetState
+) {
     val home = commonViewModel.home.observeAsState(true).value
     val title = commonViewModel.appBarTitle.observeAsState("").value
 
@@ -45,11 +51,9 @@ fun AppBar(commonViewModel: CommonViewModel, navController: NavController, drawe
         IconButton(
             onClick = {
                 if (home) {
-                    drawerState.open {  }
+                    state.show()
                 } else {
-                    navController.navigateUp()
-                    commonViewModel.home.value = true
-                    commonViewModel.appBarTitle.value = ""
+                    toHome(commonViewModel, navController, "")
                 }
             },
             modifier = Modifier.padding(start = Dimen.small, end = Dimen.small)

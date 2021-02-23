@@ -19,14 +19,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import cn.wthee.jetpackcompose.navigation.Route
-import cn.wthee.jetpackcompose.navigation.Route.ARTICLE_URL
+import cn.wthee.jetpackcompose.nav.Route
+import cn.wthee.jetpackcompose.nav.Route.ARTICLE_URL
 import cn.wthee.jetpackcompose.ui.AppBar
 import cn.wthee.jetpackcompose.ui.ArticleDetail
 import cn.wthee.jetpackcompose.ui.ArticleList
-import cn.wthee.jetpackcompose.ui.BottomDrawerContent
+import cn.wthee.jetpackcompose.ui.MenuContent
+import cn.wthee.jetpackcompose.ui.login.LoginPage
 import cn.wthee.jetpackcompose.ui.theme.JetpackComposeTheme
-import cn.wthee.jetpackcompose.ui.theme.shapes
 import cn.wthee.jetpackcompose.viewmodel.CommonViewModel
 
 private lateinit var commonViewModel: CommonViewModel
@@ -51,15 +51,14 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun Home() {
     val navController = rememberNavController()
-    val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
+    val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     commonViewModel = viewModel()
     val loading = commonViewModel.loading.observeAsState(initial = true).value
     JetpackComposeTheme() {
-        BottomDrawerLayout(
-            drawerState = drawerState,
-            drawerShape = shapes.small,
-            drawerContent = {
-                BottomDrawerContent(commonViewModel, navController)
+        ModalBottomSheetLayout(
+            sheetState = state,
+            sheetContent = {
+                MenuContent(commonViewModel, navController, state)
             }) {
             Column() {
                 Surface(modifier = Modifier.weight(1f, true)) {
@@ -69,7 +68,7 @@ fun Home() {
                     LinearProgressIndicator(Modifier.fillMaxWidth())
                 }
                 //bottom app bar
-                AppBar(commonViewModel, navController, drawerState)
+                AppBar(commonViewModel, navController, state)
             }
         }
     }
@@ -91,6 +90,9 @@ fun MainNavHost(navController: NavHostController) {
         ) {
             ArticleDetail(commonViewModel, it.arguments?.getString(ARTICLE_URL) ?: "")
         }
-
+        //登录
+        composable(Route.Login) {
+            LoginPage(commonViewModel, navController)
+        }
     }
 }

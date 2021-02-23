@@ -1,6 +1,5 @@
 package cn.wthee.jetpackcompose.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,7 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cn.wthee.jetpackcompose.R
 import cn.wthee.jetpackcompose.data.ArticleInfo
-import cn.wthee.jetpackcompose.navigation.toArticleDetail
+import cn.wthee.jetpackcompose.nav.toArticleDetail
 import cn.wthee.jetpackcompose.ui.theme.Dimen
 import cn.wthee.jetpackcompose.ui.theme.shapes
 import cn.wthee.jetpackcompose.viewmodel.ArticleViewModel

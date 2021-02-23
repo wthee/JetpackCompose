@@ -15,7 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cn.wthee.jetpackcompose.R
 import cn.wthee.jetpackcompose.data.BannerData
-import cn.wthee.jetpackcompose.navigation.toArticleDetail
+import cn.wthee.jetpackcompose.nav.toArticleDetail
 import cn.wthee.jetpackcompose.viewmodel.ArticleViewModel
 import cn.wthee.jetpackcompose.viewmodel.CommonViewModel
 import coil.load
