@@ -9,6 +9,6 @@ class CommonViewModel : ViewModel() {
 
     val loading = MutableLiveData(true)
     val home = MutableLiveData(true)
-    val appBarTitle = MutableLiveData("WanAndroid")
+    val appBarTitle = MutableLiveData("")
 
 }

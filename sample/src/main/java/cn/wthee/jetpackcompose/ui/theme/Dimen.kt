@@ -28,4 +28,9 @@ object Dimen {
      * 导航栏高度：42dp
      */
     val appBarHeight = 42.dp
+
+    /**
+     * 图标大小：36dp
+     */
+    val iconSize = 40.dp
 }

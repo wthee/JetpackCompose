@@ -7,28 +7,34 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-        primary = purple200,
-        primaryVariant = purple700,
-        secondary = teal200
+    primary = purple200,
+    primaryVariant = purple700,
+    secondary = purple500,
+    background = white,
+    surface = white,
+    onPrimary = white,
+    onSecondary = black,
+    onBackground = black,
+    onSurface = black,
 )
 
 private val LightColorPalette = lightColors(
-        primary = purple500,
-        primaryVariant = purple700,
-        secondary = teal200
-
-        /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    primary = purple500,
+    primaryVariant = purple700,
+    secondary = purple500,
+    background = white,
+    surface = white,
+    onPrimary = white,
+    onSecondary = black,
+    onBackground = black,
+    onSurface = black,
 )
 
 @Composable
-fun JetpackComposeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun JetpackComposeTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
@@ -36,8 +42,8 @@ fun JetpackComposeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Co
     }
 
     MaterialTheme(
-            colors = colors,
-            shapes = shapes,
-            content = content
+        colors = colors,
+        shapes = shapes,
+        content = content
     )
 }

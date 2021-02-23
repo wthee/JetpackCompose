@@ -1,5 +1,6 @@
 package cn.wthee.jetpackcompose.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,7 +29,6 @@ import cn.wthee.jetpackcompose.ui.theme.shapes
 import cn.wthee.jetpackcompose.viewmodel.ArticleViewModel
 import cn.wthee.jetpackcompose.viewmodel.CommonViewModel
 
-
 private var articlePage = 0
 private var data = arrayListOf<ArticleInfo>()
 
@@ -47,11 +47,15 @@ fun ArticleList(commonViewModel: CommonViewModel, navController: NavController) 
         Modifier.fillMaxWidth().fillMaxHeight(),
         state = state
     ) {
-        itemsIndexed(data) { _, chat ->
+
+        itemsIndexed(data) { index, chat ->
+            if (index == 0) {
+                Banner(commonViewModel, navController)
+            }
             ArticleListItem(commonViewModel, navController, chat)
         }
-        // 滑动加载更多
-        if (state.firstVisibleItemIndex == articlePage * 20) {
+        // 滑动时提前加载一页
+        if (state.firstVisibleItemIndex == (articlePage - 1) * 20 || articlePage < 2) {
             viewModel.loadArticle(++articlePage)
         }
 
